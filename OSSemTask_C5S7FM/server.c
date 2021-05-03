@@ -10,11 +10,10 @@
 int main()
 {
     int fd;
-    char * fifoname = "/tmp/fifoname";
-
+    char * fifoname = "/tmp/myfifo";
     mkfifo(fifoname, S_IWUSR | S_IRUSR);
 
-    char number[40], number2[40];
+    char number[40];
 
     while(1){
         fd = open(fifoname, O_RDONLY);
@@ -22,9 +21,9 @@ int main()
         printf("Kapott szam: %s", number);
         close(fd);
 
-       /* double power = atof(number);
+        double power = atof(number);
         double ret = power * power;
-        memcpy(number2, &ret, sizeof(ret));*/
+        *(double *)number = ret;
 
         fd = open(fifoname, O_WRONLY);
         write(fd, number, strlen(number));
